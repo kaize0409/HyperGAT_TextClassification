@@ -105,3 +105,32 @@ def read_file(dataset, LDA=True):
 	class_weights = class_weight.compute_class_weight('balanced',np.unique(train_set_y),train_set_y)
 
 	return doc_content_list, doc_train_list, doc_test_list, vocab_dic, labels_dic, max_num_sentence, keywords_dic, class_weights
+
+
+def loadGloveModel(gloveFile, vocab_dic, matrix_len):
+	print("Loading Glove Model")
+	f = open(gloveFile,'r')
+	gloveModel = {}
+	glove_embedding_dimension = 0
+	for line in f:
+		splitLine = line.split()
+		word = splitLine[0]
+		glove_embedding_dimension = len(splitLine[1:])
+		embedding = np.array([float(val) for val in splitLine[1:]])
+		gloveModel[word] = embedding
+	
+	words_found = 0
+	weights_matrix = np.zeros((matrix_len, glove_embedding_dimension))
+	weights_matrix[0] = np.zeros((glove_embedding_dimension, ))
+	
+	for word in vocab_dic:
+		if word in gloveModel:
+			weights_matrix[vocab_dic[word]] = gloveModel[word]
+			words_found += 1
+		else:
+			weights_matrix[vocab_dic[word]] = gloveModel['the']
+
+	print("Total ", len(vocab_dic), " words")
+	print("Done.",words_found," words loaded from", gloveFile)
+
+	return weights_matrix

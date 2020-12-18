@@ -8,6 +8,7 @@ from model import *
 from sklearn.utils import class_weight
 import random
 import warnings
+import os
 
 warnings.filterwarnings('ignore') 
 
@@ -43,6 +44,14 @@ random.seed(SEED)
 
 def main():
 	doc_content_list, doc_train_list, doc_test_list, vocab_dic, labels_dic, max_num_sentence, keywords_dic, class_weights = read_file(args.dataset, args.use_LDA)
+
+	pre_trained_weight = []
+	if args.dataset == 'mr':
+		gloveFile = 'data/glove.6B.300d.txt'  
+		if not os.path.exists(gloveFile):
+			print('Please download the pretained Glove Embedding from https://nlp.stanford.edu/projects/glove/')
+			return 
+		pre_trained_weight = loadGloveModel(gloveFile, vocab_dic, len(vocab_dic)+1)
 	
 	train_data, valid_data = split_validation(doc_train_list, args.valid_portion, SEED)
 	test_data = split_validation(doc_test_list, 0.0, SEED)
@@ -54,7 +63,7 @@ def main():
 	test_data = Data(test_data, max_num_sentence,  keywords_dic, num_categories, args.use_LDA)
 	
 
-	model = trans_to_cuda(SessionGraph(args, class_weights, len(vocab_dic)+1, len(labels_dic)))
+	model = trans_to_cuda(DocumentGraph(args, pre_trained_weight, class_weights, len(vocab_dic)+1, len(labels_dic)))
 	
 	for epoch in range(args.epoch):
 		print('-------------------------------------------------------')

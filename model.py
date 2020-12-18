@@ -39,9 +39,9 @@ class HGNN_ATT(nn.Module):
         return x
 
 
-class SessionGraph(Module):
-    def __init__(self, opt, class_weights, n_node, n_categories):
-        super(SessionGraph, self).__init__()
+class DocumentGraph(Module):
+    def __init__(self, opt, pre_trained_weight, class_weights, n_node, n_categories):
+        super(DocumentGraph, self).__init__()
         self.hidden_size = opt.hiddenSize
         self.n_node = n_node
         self.n_categories = n_categories
@@ -57,6 +57,10 @@ class SessionGraph(Module):
         self.prediction_transform = nn.Linear(self.hidden_size, self.n_categories, bias=True)  
 
         self.reset_parameters()
+
+        if opt.dataset == 'mr':
+            pre_trained_weight = torch.FloatTensor(pre_trained_weight)
+            self.embedding = nn.Embedding.from_pretrained(pre_trained_weight, freeze = False, padding_idx = 0)
 
         self.hgnn = HGNN_ATT(self.initial_feature, self.initial_feature, self.hidden_size, dropout = self.dropout)
 
