@@ -48,11 +48,14 @@ class DocumentGraph(Module):
         self.batch_size = opt.batchSize
         self.dropout = opt.dropout    
         self.initial_feature = opt.initialFeatureSize
+        self.normalization = opt.normalization
         self.dataset = opt.dataset
 
 
         self.embedding = nn.Embedding(self.n_node+1, self.initial_feature, padding_idx=0)
         self.layer_normH = nn.LayerNorm(self.hidden_size, eps=1e-6)
+        if self.normalization:
+            self.layer_normC = nn.LayerNorm(self.n_categories, eps=1e-6)
 
         self.prediction_transform = nn.Linear(self.hidden_size, self.n_categories, bias=True)  
 
@@ -85,6 +88,9 @@ class DocumentGraph(Module):
         b = self.prediction_transform(b)
 
         pred = b
+
+        if self.normalization:
+            pred = self.layer_normC(b)
         
         return pred
 

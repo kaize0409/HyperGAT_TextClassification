@@ -26,6 +26,7 @@ parser.add_argument('--lr_dc_step', type=int, default=3, help='the number of ste
 parser.add_argument('--l2', type=float, default=1e-6, help='l2 penalty')  
 parser.add_argument('--valid_portion', type=float, default=0.1, help='split the portion of training set as validation set')
 parser.add_argument('--rand', type=int, default=1234, help='rand_seed')
+parser.add_argument('--normalization', action='store_true', help='add a normalization layer to the end')
 parser.add_argument('--use_LDA', action='store_true', help='use LDA to construct semantic hyperedge')
 
 
