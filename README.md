@@ -19,7 +19,7 @@ numpy==1.19.4
 torch==1.4.0
 
 ## Usage
-Example of LDA-related preprocessing: ```python generate_lda.py --topics 8 --dataset R8```
+Example of LDA-related preprocessing: ```python generate_lda.py --topics 52 --dataset R52```
 
 Example of running HyperGAT: ```python run.py --dataset R52 --use_LDA --batchSize 8 --lr 0.001 --dropout 0.3 --l2 1e-6 --epoch 10```
 
