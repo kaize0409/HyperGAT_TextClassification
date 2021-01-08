@@ -8,12 +8,20 @@ This is the source code of paper "Be More with Less: Hypergraph Attention Networ
 
 
 ## Requirements
-python==3.6.6 
+python==3.6.6
+
+nltk==3.4.5
+
+scikit-learn==0.21.3
+
+numpy==1.19.4
 
 torch==1.4.0
 
 ## Usage
-```python run.py --dataset R52 --use_LDA --batchSize 8 --lr 0.001 --dropout 0.3 --l2 1e-6 --epoch 10```
+Example of LDA-related preprocessing: ```python generate_lda.py --topics 8 --dataset R8```
+
+Example of running HyperGAT: ```python run.py --dataset R52 --use_LDA --batchSize 8 --lr 0.001 --dropout 0.3 --l2 1e-6 --epoch 10```
 
 ## Cite
 
