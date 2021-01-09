@@ -3,8 +3,8 @@ Hypergraph Attention Networks for Inductive Text Classification(EMNLP2020)
 
 ## HyperGAT
 
-This is the source code of paper "Be More with Less: Hypergraph Attention Networks for Inductive Text Classification".
-
+This is the source code of paper ["Be More with Less: Hypergraph Attention Networks for Inductive Text Classification"](https://www.aclweb.org/anthology/2020.emnlp-main.399.pdf).
+![The proposed framework](hypergat.png)
 
 
 ## Requirements
